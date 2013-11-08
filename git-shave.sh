@@ -26,11 +26,12 @@ function drop_stash {
 }
 
 function select_stashes {
-	stashes=`git stash list | grep -Eo 'stash@\{\d+\}' | sort -rn`
+	stashes=`git stash list | grep -Eo 'stash@\{\d+\}' | grep -Eo '\d+' | sort -rn`
 
 	stashes_to_delete=()
 
 	for stash in $stashes; do
+		stash="stash@{$stash}"
 		show_stash $stash
 		if yes_no_prompt "Do you want to shave (delete) this stash?"; then
 			stashes_to_delete+=($stash)
